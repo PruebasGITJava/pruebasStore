@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
@@ -48,6 +49,9 @@ public class MailServiceImpl implements MailService {
 
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
+
+	@Value("${urlMail}")
+	private String urlActivation;
 
 	/*
 	 * (non-Javadoc)
@@ -87,7 +91,7 @@ public class MailServiceImpl implements MailService {
 		Map<String, Object> model = new HashMap<>();
 		model.put("name", mail.getFrom());
 		model.put("location", "Madrid");
-		String url = "/message/activation?id=" + id;
+		String url = urlActivation + id;
 		model.put("signature", url);
 		mail.setModel(model);
 

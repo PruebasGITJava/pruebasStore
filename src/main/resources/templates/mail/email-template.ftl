@@ -33,7 +33,7 @@
         <tr>
             <td bgcolor="#777777" style="padding: 30px 30px 30px 30px;">
                 <a href="${signature}">
-                <input type="button" value="¡Confirmar!" /> 
+                <input type="button" value="Confirmar" /> 
                 </a>
                 <p>${location}</p>
             </td>

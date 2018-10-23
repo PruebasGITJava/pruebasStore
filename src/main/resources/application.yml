@@ -52,4 +52,4 @@ mail:
   from:
     user: onboarding.pf@gmail.com
     pass: Ciber2017
-
+urlMail: http://localhost:8080/message/activation?id=
