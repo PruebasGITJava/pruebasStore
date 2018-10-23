@@ -19,7 +19,7 @@
 
 	<div class="container">
 
-		<form class="form-signin" action="#" th:action="@{/login}"
+		<form class="form-signin" action="#" th:action="@{/addcontactcheck}"
 			th:object="${userCredentials}" method="post">
 			<h2 class="form-signin-heading">Registrar Vendedor</h2>
 			<label for="inputEmail" class="sr-only">USUARIO</label> <input
@@ -35,19 +35,19 @@
 				id="inputEdad" class="form-control" placeholder="Edad"
 				th:field="*{edad}" /> <label for="inputEmail" class="sr-only">LOCALIDAD</label>
 			<input type="text" id="inputLocalidad" class="form-control"
-				placeholder="Localidad" th:field="*{localidad}" /> <a href="#"
-				th:href="@{/login}">
-				<button class="btn btn-lg btn-primary btn-block" type="submit">
-					<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-					Añadir
-				</button>
-			</a> <a href="#" th:href="@{/login?logout}">
-				<button class="btn btn-lg btn-primary btn-block" type="submit">
-					<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-					Salir
-				</button>
-			</a>
+				placeholder="Localidad" th:field="*{localidad}" />
+			<button class="btn btn-lg btn-primary btn-block" type="submit">
+				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+				Añadir
+			</button>
 		</form>
+
+		<a href="#" th:href="@{/login}">
+			<button class="btn btn-lg btn-primary btn-block" type="submit">
+				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+				Logout
+			</button>
+		</a>
 	</div>
 	<!-- /container -->
 </body>

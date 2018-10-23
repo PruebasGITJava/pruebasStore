@@ -8,14 +8,11 @@ import javax.mail.MessagingException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.store.tropifaunia.constants.ConstantController;
@@ -74,31 +71,38 @@ public class LoginController {
 	}
 
 	@GetMapping(ConstantController.ADDCONTACT)
-	public String showAddContactForm() {
-		ConstantController.LOG.info("Lanzando metodo: showLoginForm() ");
-		return ConstantController.ADDCONTACT;
+	public String showAddContactForm(Model model, @RequestParam(name = "error", required = false) String error,
+			@RequestParam(name = "logout", required = false) String logout) {
+		ConstantController.LOG
+				.info("Lanzando metodo: showAddContactForm() -- PARAMETROS: error= " + error + ", logout: " + logout);
+		model.addAttribute("error", error);
+		model.addAttribute("logout", logout);
+		model.addAttribute("userCredentials", new Contact());
+		ConstantController.LOG.info("Returning a la vista: addcontact");
+		return ConstantView.ADDCONTACT;
 	}
 
-	@PostMapping(ConstantController.ADDCONTACT)
-	public String addContact(@RequestBody Contact contact) throws MessagingException, IOException, TemplateException {
+	@PostMapping(ConstantController.ADDCONTACT_CHECK)
+	public String addContact(@ModelAttribute(name = "userCredentials") Contact contact)
+			throws MessagingException, IOException, TemplateException {
 		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().trim().isEmpty()) {
 			List<Contact> contactos = contactServiceImpl.findByAll();
 			for (Contact user : contactos) {
 				if (contact.getEmail().equals(user.getEmail())) {
-					ConstantController.LOG.info("Returning a la vista: login?error");
+					ConstantController.LOG.info("PARAMETROS: email=" + contact.getEmail() + ", email-introducido: "
+							+ user.getEmail() + "'.");
 					return ConstantController.REDIRECT_ERROR;
 				}
 			}
 			contact.setActivation(0);
-			ConstantController.LOG.info("Activation mode off");
+			ConstantController.LOG.info("Rest method: setActivation(0)");
 			String encriptMD5 = DigestUtils.md5Hex(contact.getPasswd());
 			contact.setPasswd(encriptMD5);
-			ConstantController.LOG.info("Encript MD5");
+			ConstantController.LOG.info("Rest method: md5Hex(paswd)");
 			contactServiceImpl.addContact(contact);
 			ConstantController.LOG.info("Rest method: addContact()");
 			mailServiceImpl.sendSimpleMessageHTMLP(contact.getEmail(), contact.getId());
-			return ResponseEntity.ok(HttpStatus.OK + " Se dio de alta el usuario con email: '" + contact.getEmail()
-					+ "', en breve recibirá un correo para la confirmación de la cuenta.").toString();
+			return ConstantView.ADDCONTACT_CHECK;
 		}
 
 		return ConstantController.REDIRECT_ERROR;

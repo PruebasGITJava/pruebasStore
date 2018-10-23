@@ -88,7 +88,7 @@ public class MailServiceImpl implements MailService {
 		Map<String, Object> model = new HashMap<>();
 		model.put("name", mail.getFrom());
 		model.put("location", "Madrid");
-		model.put("signature", "http://localhost:8080/message/activation?id=" + id);
+		model.put("signature", "/activation?id=" + id);
 		mail.setModel(model);
 
 		MimeMessage message = emailSender.createMimeMessage();
