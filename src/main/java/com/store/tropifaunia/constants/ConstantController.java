@@ -16,4 +16,8 @@ public class ConstantController {
 	public static final String REDIRECT_ERROR = "redirect:/login?error";
 	public static final String ADDCONTACT = "/addcontact";
 	public static final String ADDCONTACT_CHECK = "/addcontactcheck";
+	public static final String EDITPERFIL = "/editperfil";
+	public static final String RESET = "/resetpasswd";
+	public static final String RESET_CHECK = "/resetpasswdcheck";
+
 }

@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.store.tropifaunia.entity.Contact;
 import com.store.tropifaunia.mail.constants.RestMailConstants;
+import com.store.tropifaunia.mail.service.impl.MailServiceImpl;
 import com.store.tropifaunia.services.impl.ContactServiceImpl;
 
 @RestController
 @RequestMapping(RestMailConstants.MAIL_REST_SUFIX)
-public class MailController {
+public class MailController extends MailServiceImpl {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MailController.class);
 

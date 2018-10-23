@@ -19,6 +19,7 @@ import com.store.tropifaunia.constants.ConstantController;
 import com.store.tropifaunia.constants.ConstantView;
 import com.store.tropifaunia.entity.Contact;
 import com.store.tropifaunia.mail.service.impl.MailServiceImpl;
+import com.store.tropifaunia.services.GenerPasswdService;
 import com.store.tropifaunia.services.impl.ContactServiceImpl;
 
 import freemarker.template.TemplateException;
@@ -106,5 +107,38 @@ public class LoginController {
 		}
 
 		return ConstantController.REDIRECT_ERROR;
+	}
+
+	@GetMapping(ConstantController.RESET)
+	public String showResetPasswd(Model model, @RequestParam(name = "error", required = false) String error,
+			@RequestParam(name = "logout", required = false) String logout) {
+		ConstantController.LOG
+				.info("Lanzando metodo: showAddContactForm() -- PARAMETROS: error= " + error + ", logout: " + logout);
+		model.addAttribute("error", error);
+		model.addAttribute("logout", logout);
+		model.addAttribute("userCredentials", new Contact());
+		ConstantController.LOG.info("Returning a la vista: addcontact");
+		return ConstantView.RESET;
+	}
+
+	@PostMapping(ConstantController.RESET_CHECK)
+	public String sendMail(@ModelAttribute(name = "userCredentials") Contact contact) {
+
+		String passwd = GenerPasswdService.getPassword(
+				GenerPasswdService.MINUSCULAS + GenerPasswdService.MAYUSCULAS + GenerPasswdService.ESPECIALES, 10);
+
+		if (!contact.getEmail().trim().isEmpty()) {
+			List<Contact> contactos = contactServiceImpl.findByAll();
+
+			for (Contact user : contactos) {
+				if (contact.getEmail().equals(user.getEmail())) {
+					mailServiceImpl.sendSimpleMessagePasswdReset(contact, passwd);
+					String encriptMD5 = DigestUtils.md5Hex(passwd);
+					contactServiceImpl.updatePasswd(user, encriptMD5);
+
+				}
+			}
+		}
+		return ConstantView.RESET_CHECK;
 	}
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+
+<title>Resetear contraseña</title>
+
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<!-- Custom styles for this template -->
+<link href="#" th:href="@{/css/login.css}" rel="stylesheet" />
+<link href="#" th:href="@{/css/style.css}" rel="stylesheet" />
+
+</head>
+
+<body>
+
+	<div class="container">
+
+		<form class="form-signin" action="#" th:action="@{/resetpasswdcheck}"
+			th:object="${userCredentials}" method="post">
+			<h2 class="form-signin-heading">Ingrese su Email</h2>
+			<label for="inputEmail" class="sr-only">USUARIO</label> <input
+				type="text" id="inputUsername" class="form-control"
+				placeholder="Email*" th:field="*{email}" /> 
+			<button class="btn btn-lg btn-primary btn-block" type="submit">
+				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+				Confirmar
+			</button>
+		</form>
+
+		<a href="#" th:href="@{/login}">
+			<button class="btn btn-lg btn-primary btn-block" type="submit">
+				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+				Go back
+			</button>
+		</a>
+	</div>
+	<!-- /container -->
+</body>
+</html>

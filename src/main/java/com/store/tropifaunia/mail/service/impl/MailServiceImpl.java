@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.store.tropifaunia.entity.Contact;
-import com.store.tropifaunia.mail.model.Mail;
 import com.store.tropifaunia.mail.service.MailService;
 
 import freemarker.template.Configuration;
@@ -81,14 +80,15 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public void sendSimpleMessageHTMLP(String to, int id) throws MessagingException, IOException, TemplateException {
 
-		Mail mail = new Mail();
+		com.store.tropifaunia.mail.model.Mail mail = new com.store.tropifaunia.mail.model.Mail();
 		mail.setTo(to);
 		mail.setSubject("Email de confirmación App");
 
 		Map<String, Object> model = new HashMap<>();
 		model.put("name", mail.getFrom());
 		model.put("location", "Madrid");
-		model.put("signature", "/activation?id=" + id);
+		String url = "/message/activation?id=" + id;
+		model.put("signature", url);
 		mail.setModel(model);
 
 		MimeMessage message = emailSender.createMimeMessage();
