@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8"/>
+
+    <title>Iniciar Sesión - LOGIN</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <!-- Custom styles for this template -->
+    <link href="#" th:href="@{/css/login.css}" rel="stylesheet" />
+    <link href="#" th:href="@{/css/style.css}" rel="stylesheet" />
+
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin" action="#" th:action="@{/logincheck}" th:object="${userCredentials}" method="post">
+        <h2 class="form-signin-heading">Iniciar Sesión</h2>
+        <label for="inputEmail" class="sr-only">USUARIO</label>
+        <input type="text" id="inputUsername" class="form-control" placeholder="Email" th:field="*{email}"/>
+        <label for="inputPassword" class="sr-only">CONTRASEÑA</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" th:field="*{passwd}"/>
+        <div th:if="${error != null}" class="alert alert-danger" role="alert">¡Fallo de autenticación!</div>
+        <div th:if="${logout != null}" class="alert alert-info" role="alert">¡Cerraste sesión!</div>
+        <div th:if="${addcontact != null}" class="alert alert-info" role="alert">¡Usuario Registrado!</div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+        	<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Iniciar Sesión
+        </button>
+        <br>
+        <a href="#" th:href="@{/showAddContactForm}">
+        	<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Registrarse
+        </a>
+        </form>
+    </div> <!-- /container -->
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+spring: 
+  # POSTGRESQL
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://ec2-54-247-79-32.eu-west-1.compute.amazonaws.com:5432/dcof3u2cnfsfna
+    username: vexqhwarpoudxm
+    password: d7266bea68ca6e913cd722c48b0b8d4935a105c84b900e4494cecac81d430322
+    
+  # JPA #
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob: 
+            non_contextual_creation: true
+
+  # MAIL #
+  mail:
+    host: smtp.gmail.com
+    port: 25
+    username: onboarding.pf@gmail.com
+    password: Ciber2017
+    protocol: smtp
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+              enable: true
+        debug: true
+
+  # FREE MARKER #
+  freemarker: 
+    template-loader-path:
+    - classpath:/templates/mail
+    
+  # BANNER #
+  banner:
+    location: classpath:banner.txt
+    
+# SMTP #
+mail: 
+  config:
+    server: smtp.gmail.com
+    port: 25
+  from:
+    user: onboarding.pf@gmail.com
+    pass: Ciber2017
+
