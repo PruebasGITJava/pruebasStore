@@ -54,26 +54,21 @@ public class ContactController {
 	@GetMapping("/contactform")
 	public String redirectContactForm(Model model) {
 		ConstantController.LOG2.info("Lanzando metodo: redirectContactForm()");
-		model.addAttribute("contactModel", new ContactModel());
+		model.addAttribute("animals", new ContactModel());
 		ConstantController.LOG2.info("Returning a la vista: contactform");
 		return ConstantView.CONTACT_FORM;
 	}
 
-	@ModelAttribute("animals")
-	public List<Animals> getUserList() {
-		List<Animals> animals = animalServiceImpl.findByAll();
-		return animals;
-	}
+	@PostMapping("/addcontact")
+	public String addContact(@ModelAttribute(name = "animals") Animals animals, Model model) {
+		if (!animals.getNombreRaza().trim().isEmpty() && !animals.getTipo().isEmpty() && animals.getNumero() > 0) {
 
-	// @PostMapping("/addcontact")
-	// public String addContact(@ModelAttribute(name = "contactModel")
-	// ContactModel contactModel, Model model) {
-	// ConstantController.LOG2.info("Lanzando metodo: addContact() --
-	// PARAMETROS: " + contactModel.toString());
-	// model.addAttribute("result", 1);
-	// ConstantController.LOG2.info("Returning a la vista: contacts");
-	// return ConstantView.CONTACTS;
-	// }
+		}
+		ConstantController.LOG2.info("Lanzando metodo: addContact() -- PARAMETROS: " + animals.toString());
+		model.addAttribute("result", 1);
+		ConstantController.LOG2.info("Returning a la vista: contacts");
+		return ConstantView.CONTACTS;
+	}
 
 	@GetMapping(ConstantController.EDITPERFIL)
 	public String showEditContactForm(Model model, @RequestParam(name = "error", required = false) String error,

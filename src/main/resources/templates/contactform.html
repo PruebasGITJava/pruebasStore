@@ -19,10 +19,10 @@
 		<div class="container">
 			<h1>¡A comprar!</h1>
 			<br />
-			<form action="#" th:action="@{/contacts/addcontact}" th:object="${contactModel}" method="post">
-				Nombre de la raza: <input type="text" class="form-control" th:field="*{firstname}"></input> <br />
-				Tipo de animal: <input type="text" class="form-control" th:field="*{lastname}"></input> <br />
-				Nº de animales: <input type="text" class="form-control" th:field="*{telephone}"></input> <br />
+			<form action="#" th:action="@{/contacts/addcontact}" th:object="${animals}" method="post">
+				Nombre de la raza: <input type="text" class="form-control" th:field="*{nombreRaza}"></input> <br />
+				Tipo de animal: <input type="text" class="form-control" th:field="*{tipo}"></input> <br />
+				Nº de animales: <input type="text" class="form-control" th:field="*{numero}"></input> <br />
 				<button class="btn btn-lg btn-primary btn-block" type="submit">
 					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					Comprar
