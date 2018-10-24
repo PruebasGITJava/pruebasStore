@@ -36,81 +36,17 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>Bichón Maltés</td>
-						<td>Perro</td>
-						<td>40</td>
-						<td>60€</td>
+					<tr th:each="animl: ${animals}">
+						<td th:text="${animl.nombreRaza}" />
+						<td th:text="${animl.tipo}" />
+						<td th:text="${animl.numero}" />
+						<td th:text="${animl.euros}" />
 						<td><a href="#" th:href="@{/contacts/contactform}">
 								<button type="button" class="btn btn-default">
 									<span class="glyphicon glyphicon-shopping-cart"
 										aria-hidden="true"></span>
 								</button>
-						</a>		
-							<button type="button" class="btn btn-danger">
-								<span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
-							</button></td>
-					</tr>
-					<tr>
-						<td>Bull-Dog</td>
-						<td>Perro</td>
-						<td>20</td>
-						<td>60€</td>
-						<td><a href="#" th:href="@{/contacts/contactform}">
-								<button type="button" class="btn btn-default">
-									<span class="glyphicon glyphicon-shopping-cart"
-										aria-hidden="true"></span>
-								</button>
-						</a>
-							<button type="button" class="btn btn-danger">
-								<span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
-							</button></td>
-					</tr>
-					<tr>
-						<td>Siamés</td>
-						<td>Gato</td>
-						<td>25</td>
-						<td>35€</td>
-						<td><a href="#" th:href="@{/contacts/contactform}">
-								<button type="button" class="btn btn-default">
-									<span class="glyphicon glyphicon-shopping-cart"
-										aria-hidden="true"></span>
-								</button>
-						</a>
-							<button type="button" class="btn btn-danger">
-								<span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
-							</button></td>
-					</tr>
-
-					<tr>
-						<td>Angora</td>
-						<td>Gato</td>
-						<td>20</td>
-						<td>25€</td>
-						<td><a href="#" th:href="@{/contacts/contactform}">
-								<button type="button" class="btn btn-default">
-									<span class="glyphicon glyphicon-shopping-cart"
-										aria-hidden="true"></span>
-								</button>
-						</a>
-							<button type="button" class="btn btn-danger">
-								<span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
-							</button></td>
-					</tr>
-					<tr>
-						<td>Periquitos</td>
-						<td>Otros</td>
-						<td>5</td>
-						<td>120€</td>
-						<td><a href="#" th:href="@{/contacts/contactform}">
-								<button type="button" class="btn btn-default">
-									<span class="glyphicon glyphicon-shopping-cart"
-										aria-hidden="true"></span>
-								</button>
-						</a>
-							<button type="button" class="btn btn-danger">
-								<span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
-							</button></td>
+						</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -135,13 +71,12 @@
 		</div>
 		<div th:if="${result== 1}" class="alert alert-success" role="alert">¡Compra
 			realizada!</div>
-		<a href="#" th:href="@{/editperfil}">
+		<a href="#" th:href="@{/contacts/editperfil}">
 			<button class="btn btn-lg btn-primary btn-block" type="submit">
 				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
 				Editar perfil
 			</button>
-		</a>
-		<a href="#" th:href="@{/login?logout}">
+		</a> <a href="#" th:href="@{/login?logout}">
 			<button class="btn btn-lg btn-primary btn-block" type="submit">
 				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
 				Logout

@@ -20,6 +20,7 @@ import com.store.tropifaunia.constants.ConstantView;
 import com.store.tropifaunia.entity.Contact;
 import com.store.tropifaunia.mail.service.impl.MailServiceImpl;
 import com.store.tropifaunia.services.GenerPasswdService;
+import com.store.tropifaunia.services.impl.AnimalServiceImpl;
 import com.store.tropifaunia.services.impl.ContactServiceImpl;
 
 import freemarker.template.TemplateException;
@@ -33,6 +34,9 @@ public class LoginController {
 	@Autowired
 	@Qualifier("mailServiceImpl")
 	private MailServiceImpl mailServiceImpl;
+	@Autowired
+	@Qualifier("animalServiceImpl")
+	private AnimalServiceImpl animalServiceImpl;
 
 	@GetMapping(ConstantController.RAIZ)
 	public String redirectToLogin() {
@@ -55,7 +59,7 @@ public class LoginController {
 	}
 
 	@PostMapping(ConstantController.LOGIN_CHECK)
-	public String login(@ModelAttribute(name = "userCredentials") Contact contact) {
+	public String login(Model model, @ModelAttribute(name = "userCredentials") Contact contact) {
 		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().isEmpty()) {
 
 			for (Contact user : contactServiceImpl.findByAll()) {
@@ -63,6 +67,9 @@ public class LoginController {
 						&& DigestUtils.md5Hex(contact.getPasswd()).equals(user.getPasswd())
 						&& user.getActivation() == 1) {
 					ConstantController.LOG.info("Returning a la vista: contacts");
+
+					model.addAttribute("animals", animalServiceImpl.findByAll());
+
 					return ConstantView.CONTACTS;
 				}
 			}

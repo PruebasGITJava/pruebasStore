@@ -19,16 +19,13 @@
 
 	<div class="container">
 
-		<form class="form-signin" action="#" th:action="@{/editperfil}"
+		<form class="form-signin" action="#" th:action="@{/contacts/datePerson}"
 			th:object="${userCredentials}" method="post">
-			<h2 class="form-signin-heading">Editar Perfil</h2>
-			<label for="inputEmail" class="sr-only">USUARIO</label> <input
-				type="text" id="inputUsername" class="form-control"
-				placeholder="Email*" th:field="*{email}" /> <label
-				for="inputPassword" class="sr-only">CONTRASEÑA</label> <input
-				type="password" id="inputPassword" class="form-control"
-				placeholder="Password*" th:field="*{passwd}" /> <label
-				for="inputEmail" class="sr-only">APELLIDOS</label> <input
+			<h3 class="form-signin-heading">Editar Datos Personales</h3>
+			<label for="inputEmail" class="sr-only">NOMBRE</label> <input
+				type="text" id="inputNombre" class="form-control"
+				placeholder="Nombre" th:field="*{nombre}" /> 
+			<label for="inputEmail" class="sr-only">APELLIDOS</label> <input
 				type="text" id="inputAppellidos" class="form-control"
 				placeholder="Apellidos" th:field="*{appellidos}" /> <label
 				for="inputEmail" class="sr-only">EDAD</label> <input type="text"
@@ -41,11 +38,32 @@
 				Editar
 			</button>
 		</form>
-
-		<a href="#" th:href="@{/logincheck}">
+		<form class="form-signin" action="#" th:action="@{/contacts/dateEmail}"
+			th:object="${userCredentials}" method="post">
+			<h3 class="form-signin-heading">Editar Email</h3>
+			<label for="inputEmail" class="sr-only">EMAIL</label> <input
+				type="text" id="inputUsername" class="form-control"
+				placeholder="Email*" th:field="*{email}" />
 			<button class="btn btn-lg btn-primary btn-block" type="submit">
 				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-				Logout
+				Editar
+			</button>
+		</form>
+		<form class="form-signin" action="#" th:action="@{/contacts/datePass}"
+			th:object="${userCredentials}" method="post">
+			<h3 class="form-signin-heading">Editar Contraseña</h3>
+			<label for="inputPassword" class="sr-only">CONTRASEÑA</label> <input
+				type="password" id="inputPassword" class="form-control"
+				placeholder="Password*" th:field="*{passwd}" />
+			<button class="btn btn-lg btn-primary btn-block" type="submit">
+				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+				Editar
+			</button>
+		</form>
+		<a href="#" th:href="@{/contacts/cancel}">
+			<button class="btn btn-lg btn-primary btn-block" type="submit">
+				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+				Atrás
 			</button>
 		</a>
 	</div>
