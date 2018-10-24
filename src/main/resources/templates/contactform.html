@@ -19,20 +19,24 @@
 		<div class="container">
 			<h1>¡A comprar!</h1>
 			<br />
-			<form action="#" th:action="@{/contacts/addcontact}" th:object="${animals}" method="post">
-				Nombre de la raza: <input type="text" class="form-control" th:field="*{nombreRaza}"></input> <br />
-				Tipo de animal: <input type="text" class="form-control" th:field="*{tipo}"></input> <br />
-				Nº de animales: <input type="text" class="form-control" th:field="*{numero}"></input> <br />
+			<form action="#" th:action="@{/contacts/addcontact}"
+				method="post" th:object="${animals}">
+				Nombre de la raza: <input type="text" class="form-control"
+					th:text="*{nombreRaza}" placeholder="NombreRaza"></input> <br />
+				Tipo de Animal: <input type="text" class="form-control"
+					th:text="*{tipo}" placeholder="Tipo"></input> <br /> Nº de
+				animales: <input type="text" class="form-control"
+					th:text="*{numero}" placeholder="Numero"></input> <br />
 				<button class="btn btn-lg btn-primary btn-block" type="submit">
 					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					Comprar
 				</button>
 			</form>
 			<a href="#" th:href="@{/contacts/cancel}">
-			<button class="btn btn-lg btn-primary btn-block" type="submit">
-				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				Cancelar
-			</button>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					Cancelar
+				</button>
 			</a>
 		</div>
 	</div>

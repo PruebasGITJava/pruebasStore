@@ -20,4 +20,6 @@ public interface AnimalService {
 
 	public abstract List<Animals> findByAll();
 
+	public abstract Animals updateAnimals(Animals animals, int numero);
+
 }

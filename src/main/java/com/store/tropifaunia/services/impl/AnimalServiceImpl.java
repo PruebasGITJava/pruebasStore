@@ -18,6 +18,13 @@ public class AnimalServiceImpl implements AnimalService {
 	private AnimalsRepository animalsRepository;
 
 	@Override
+	public Animals updateAnimals(Animals animals, int numero) {
+		animals.setNumero(numero);
+		return animalsRepository.save(animals);
+
+	}
+
+	@Override
 	public Optional<Animals> findById(int id) {
 		return animalsRepository.findById(id);
 	}

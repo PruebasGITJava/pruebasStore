@@ -24,7 +24,6 @@ import com.store.tropifaunia.constants.ConstantView;
 import com.store.tropifaunia.entity.Animals;
 import com.store.tropifaunia.entity.Contact;
 import com.store.tropifaunia.mail.service.impl.MailServiceImpl;
-import com.store.tropifaunia.model.ContactModel;
 import com.store.tropifaunia.services.impl.AnimalServiceImpl;
 import com.store.tropifaunia.services.impl.ContactServiceImpl;
 
@@ -45,28 +44,50 @@ public class ContactController {
 	private AnimalServiceImpl animalServiceImpl;
 
 	@GetMapping("/cancel")
-	public String cancel() {
+	public String cancel(@ModelAttribute(name = "animals") Animals animals, Model model) {
 		ConstantController.LOG2.info("Lanzando metodo: cancel()");
 		ConstantController.LOG2.info("Returning a la vista: contacts");
+		double precio = 0;
+		int cantidad = 0;
+
+		model.addAttribute("animals", animalServiceImpl.findByAll());
+		model.addAttribute("precio", precio);
+		model.addAttribute("cantidad", cantidad + animals.getNumero());
+
 		return ConstantView.CONTACTS;
+
 	}
 
 	@GetMapping("/contactform")
-	public String redirectContactForm(Model model) {
+	public String redirectContactForm(Model model, @RequestParam(name = "error", required = false) String error,
+			@RequestParam(name = "logout", required = false) String logout) {
 		ConstantController.LOG2.info("Lanzando metodo: redirectContactForm()");
-		model.addAttribute("animals", new ContactModel());
+		model.addAttribute("error", error);
+		model.addAttribute("logout", logout);
+		model.addAttribute("animals", new Animals());
 		ConstantController.LOG2.info("Returning a la vista: contactform");
 		return ConstantView.CONTACT_FORM;
 	}
 
 	@PostMapping("/addcontact")
-	public String addContact(@ModelAttribute(name = "animals") Animals animals, Model model) {
-		if (!animals.getNombreRaza().trim().isEmpty() && !animals.getTipo().isEmpty() && animals.getNumero() > 0) {
+	public String addContact(Model model, @ModelAttribute(name = "animals2") Animals animals) {
+		ConstantController.LOG2.info("Lanzando metodo: addContact() -- PARAMETROS: " + animals.toString());
+
+		double precio = 0;
+		int cantidad = 0;
+		for (Animals animal : animalServiceImpl.findByAll()) {
+			if (animals.getNombreRaza().equals(animal.getNombreRaza())) {
+
+				animalServiceImpl.updateAnimals(animal, (animal.getNumero() + animals.getNumero()));
+				precio = precio + animal.getEuros();
+				cantidad = cantidad + animal.getNumero();
+			}
 
 		}
-		ConstantController.LOG2.info("Lanzando metodo: addContact() -- PARAMETROS: " + animals.toString());
-		model.addAttribute("result", 1);
-		ConstantController.LOG2.info("Returning a la vista: contacts");
+		model.addAttribute("animals", animalServiceImpl.findByAll());
+		model.addAttribute("precio", precio);
+		model.addAttribute("cantidad", cantidad + animals.getNumero());
+
 		return ConstantView.CONTACTS;
 	}
 
