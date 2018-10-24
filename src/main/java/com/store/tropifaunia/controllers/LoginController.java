@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.store.tropifaunia.constants.ConstantController;
 import com.store.tropifaunia.constants.ConstantView;
+import com.store.tropifaunia.entity.Animals;
 import com.store.tropifaunia.entity.Contact;
 import com.store.tropifaunia.mail.service.impl.MailServiceImpl;
 import com.store.tropifaunia.services.GenerPasswdService;
@@ -69,7 +70,15 @@ public class LoginController {
 					ConstantController.LOG.info("Returning a la vista: contacts");
 
 					model.addAttribute("animals", animalServiceImpl.findByAll());
+					double precio = 0;
+					int cantidad = 0;
 
+					for (Animals animal : animalServiceImpl.findByAll()) {
+						precio = precio + animal.getEuros();
+						cantidad = cantidad + animal.getNumero();
+					}
+					model.addAttribute("precio", precio);
+					model.addAttribute("cantidad", cantidad);
 					return ConstantView.CONTACTS;
 				}
 			}
