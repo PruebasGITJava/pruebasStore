@@ -76,7 +76,7 @@
 									<span class="glyphicon glyphicon-shopping-cart"
 										aria-hidden="true"></span>
 								</button>
-						</a> <a href="#">
+						</a> <a href="#" th:href="@{/contacts/contactformsale}">
 								<button type="button" class="btn btn-default">
 									<span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
 								</button>
@@ -86,9 +86,9 @@
 			</table>
 		</div>
 		<div th:if="${error != null}" class="alert alert-danger" role="alert">¡Fallo
-			de compra!</div>
+			de transacción!</div>
 		<div th:if="${result != null}" class="alert alert-success"
-			role="alert">¡Compra realizada!</div>
+			role="alert">¡Transacción realizada!</div>
 		<a href="#" th:href="@{/contacts/editperfil}">
 			<button class="btn btn-lg btn-primary btn-block" type="submit">
 				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
