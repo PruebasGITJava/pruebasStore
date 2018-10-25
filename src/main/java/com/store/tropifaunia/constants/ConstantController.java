@@ -1,40 +1,58 @@
 package com.store.tropifaunia.constants;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.store.tropifaunia.controllers.ContactController;
-import com.store.tropifaunia.controllers.LoginController;
-
+/**
+ * The Class ConstantController.
+ */
 public class ConstantController {
-	public static final Log LOG = LogFactory.getLog(LoginController.class);
-	public static final Log LOG2 = LogFactory.getLog(ContactController.class);
-	public static final String REDIRECT = "redirect:/login";
-	public static final String RAIZ = "/";
+
+	/** The Constant REDIRECT_LOGIN. */
+	public static final String REDIRECT_LOGIN = "redirect:/login";
+	/** The Constant RAIZ_LOGIN. */
+	public static final String RAIZ_LOGIN = "/";
+	/** The Constant LOGIN. */
 	public static final String LOGIN = "/login";
+	/** The Constant LOGIN_CHECK. */
 	public static final String LOGIN_CHECK = "/logincheck";
-	public static final String REDIRECT_ERROR = "redirect:/login?error";
-	public static final String REDIRECT_ERROR_COMPRA = "redirect:/contacts/cancel?error";
-	public static final String REDIRECT_ERROR_VENTA = "redirect:/contacts/cancel?error";
+	/** The Constant REDIRECT_ERROR_LOGIN. */
+	public static final String REDIRECT_ERROR_LOGIN = "redirect:/login?error";
 
-	public static final String REDIRECT_OK_COMPRA = "redirect:/contacts/cancel?result";
-	public static final String REDIRECT_OK_VENTA = "redirect:/contacts/cancel?result";
-	public static final String ADDCONTACT = "/addcontact";
-	public static final String ADDCONTACT_CHECK = "/addcontactcheck";
-	public static final String EDITPERFIL = "/editperfil";
-
-	public static final String UPDATE_PASSWD = "/updatepasswd";
-	public static final String UPDATE_PASSWD_CHECK = "/updatepasswdcheck";
-
-	public static final String RESET = "/resetpasswd";
-	public static final String RESET_CHECK = "/resetpasswdcheck";
-	public static final String CONTACT = "/contacts";
-	public static final String CANCEL = "/cancel";
-
-	public static final String CONTACT_FORM = "/contactform";
-	public static final String CONTACT_FORM_SALE = "/contactformsale";
-
+	/** The Constant ADD_CONTACT. */
 	public static final String ADD_CONTACT = "/addcontact";
-	public static final String ADD_CONTACT_SALE = "/addcontactsale";
+	/** The Constant ADD_CONTACT_CHECK. */
+	public static final String ADD_CONTACT_CHECK = "/addcontactcheck";
+	/** The Constant RESET_PASSWD. */
+	public static final String RESET_PASSWD = "/resetpasswd";
+	/** The Constant RESET_PASSWD_CHECK. */
+	public static final String RESET_PASSWD_CHECK = "/resetpasswdcheck";
+
+	/** The Constant CANCEL. */
+	public static final String CANCEL = "/cancel";
+	/** The Constant ANIMALS. */
+	public static final String ANIMALS = "/contacts";
+
+	/** The Constant ANIMALS. */
+	public static final String ANIMALS_FORM_BUY = "/contactform";
+	/** The Constant ADD_ANIMALS_BUY. */
+	public static final String ADD_ANIMALS_BUY = "/addcontact";
+	/** The Constant REDIRECT_OK_BUY. */
+	public static final String REDIRECT_OK_BUY = "redirect:/contacts/cancel?result";
+	/** The Constant REDIRECT_ERROR_BUY. */
+	public static final String REDIRECT_ERROR_BUY = "redirect:/contacts/cancel?error";
+
+	/** The Constant CONTACT_FORM_SALE. */
+	public static final String ANIMALS_FORM_SALE = "/contactformsale";
+	/** The Constant REDIRECT_OK_SALE. */
+	public static final String REDIRECT_OK_SALE = "redirect:/contacts/cancel?result";
+	/** The Constant REDIRECT_ERROR_SALE. */
+	public static final String REDIRECT_ERROR_SALE = "redirect:/contacts/cancel?error";
+	/** The Constant ADD_CONTACT_SALE. */
+	public static final String ADD_ANIMALS_SALE = "/addcontactsale";
+
+	/** The Constant EDIT_PERFIL_CONTACT. */
+	public static final String EDIT_PERFIL_CONTACT = "/editperfil";
+	/** The Constant UPDATE_PASSWD. */
+	public static final String UPDATE_PASSWD = "/updatepasswd";
+	/** The Constant UPDATE_PASSWD_CHECK. */
+	public static final String UPDATE_PASSWD_CHECK = "/updatepasswdcheck";
 
 }

@@ -7,6 +7,8 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -40,11 +42,13 @@ public class LoginController {
 	@Qualifier("animalServiceImpl")
 	private AnimalServiceImpl animalServiceImpl;
 
-	@GetMapping(ConstantController.RAIZ)
+	public static final Log LOG = LogFactory.getLog(LoginController.class);
+
+	@GetMapping(ConstantController.RAIZ_LOGIN)
 	public String redirectToLogin() {
-		ConstantController.LOG.info("Lanzando metodo: redirectToLogin()");
-		ConstantController.LOG.info("Returning a la vista: login");
-		return ConstantController.REDIRECT;
+		LOG.info("Lanzando metodo: redirectToLogin()");
+		LOG.info("Returning a la vista: login");
+		return ConstantController.REDIRECT_LOGIN;
 
 	}
 
@@ -52,13 +56,12 @@ public class LoginController {
 	public String showLoginForm(Model model, @RequestParam(name = "error", required = false) String error,
 			@RequestParam(name = "logout", required = false) String logout, HttpServletRequest request) {
 
-		ConstantController.LOG
-				.info("Lanzando metodo: showLoginForm() -- PARAMETROS: error= " + error + ", logout: " + logout);
+		LOG.info("Lanzando metodo: showLoginForm() -- PARAMETROS: error= " + error + ", logout: " + logout);
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
 		model.addAttribute("userCredentials", new Contact());
 		request.getSession().setAttribute("LOGGED-DATA", null);
-		ConstantController.LOG.info("Returning a la vista: login");
+		LOG.info("Returning a la vista: login");
 		return ConstantView.CONTACT_LOGIN;
 	}
 
@@ -72,7 +75,7 @@ public class LoginController {
 						&& DigestUtils.md5Hex(contact.getPasswd()).equals(user.getPasswd())
 						&& user.getActivation() == 1) {
 					request.getSession().setAttribute("LOGGED-DATA", contact);
-					ConstantController.LOG.info("Returning a la vista: contacts");
+					LOG.info("Returning a la vista: contacts");
 
 					model.addAttribute("animals", animalServiceImpl.findByAll());
 					double precio = 0;
@@ -84,65 +87,63 @@ public class LoginController {
 					}
 					model.addAttribute("precio", precio);
 					model.addAttribute("cantidad", cantidad);
-					return ConstantView.CONTACTS;
+					return ConstantView.ANIMALS_FORM_TABLE;
 				}
 			}
 		}
-		ConstantController.LOG.info("Returning a la vista: login?error");
-		return ConstantController.REDIRECT_ERROR;
+		LOG.info("Returning a la vista: login?error");
+		return ConstantController.REDIRECT_ERROR_LOGIN;
 	}
 
-	@GetMapping(ConstantController.ADDCONTACT)
+	@GetMapping(ConstantController.ADD_CONTACT)
 	public String showAddContactForm(Model model, @RequestParam(name = "error", required = false) String error,
 			@RequestParam(name = "logout", required = false) String logout) {
-		ConstantController.LOG
-				.info("Lanzando metodo: showAddContactForm() -- PARAMETROS: error= " + error + ", logout: " + logout);
+		LOG.info("Lanzando metodo: showAddContactForm() -- PARAMETROS: error= " + error + ", logout: " + logout);
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
 		model.addAttribute("userCredentials", new Contact());
-		ConstantController.LOG.info("Returning a la vista: addcontact");
-		return ConstantView.ADDCONTACT;
+		LOG.info("Returning a la vista: addcontact");
+		return ConstantView.ADD_CONTACT_FORM;
 	}
 
-	@PostMapping(ConstantController.ADDCONTACT_CHECK)
+	@PostMapping(ConstantController.ADD_CONTACT_CHECK)
 	public String addContact(@ModelAttribute(name = "userCredentials") Contact contact)
 			throws MessagingException, IOException, TemplateException {
 		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().trim().isEmpty()) {
 			List<Contact> contactos = contactServiceImpl.findByAll();
 			for (Contact user : contactos) {
 				if (contact.getEmail().equals(user.getEmail())) {
-					ConstantController.LOG.info("PARAMETROS: email=" + contact.getEmail() + ", email-introducido: "
-							+ user.getEmail() + "'.");
-					return ConstantController.REDIRECT_ERROR;
+					LOG.info("PARAMETROS: email=" + contact.getEmail() + ", email-introducido: " + user.getEmail()
+							+ "'.");
+					return ConstantController.REDIRECT_ERROR_LOGIN;
 				}
 			}
 			contact.setActivation(0);
-			ConstantController.LOG.info("Rest method: setActivation(0)");
+			LOG.info("Rest method: setActivation(0)");
 			String encriptMD5 = DigestUtils.md5Hex(contact.getPasswd());
 			contact.setPasswd(encriptMD5);
-			ConstantController.LOG.info("Rest method: md5Hex(paswd)");
+			LOG.info("Rest method: md5Hex(paswd)");
 			contactServiceImpl.addContact(contact);
-			ConstantController.LOG.info("Rest method: addContact()");
+			LOG.info("Rest method: addContact()");
 			mailServiceImpl.sendSimpleMessageHTMLP(contact.getEmail(), contact.getId());
-			return ConstantView.ADDCONTACT_CHECK;
+			return ConstantView.ADD_CONTACT_FORM_CHECK;
 		}
 
-		return ConstantController.REDIRECT_ERROR;
+		return ConstantController.REDIRECT_ERROR_LOGIN;
 	}
 
-	@GetMapping(ConstantController.RESET)
+	@GetMapping(ConstantController.RESET_PASSWD)
 	public String showResetPasswd(Model model, @RequestParam(name = "error", required = false) String error,
 			@RequestParam(name = "logout", required = false) String logout) {
-		ConstantController.LOG
-				.info("Lanzando metodo: showAddContactForm() -- PARAMETROS: error= " + error + ", logout: " + logout);
+		LOG.info("Lanzando metodo: showAddContactForm() -- PARAMETROS: error= " + error + ", logout: " + logout);
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
 		model.addAttribute("userCredentials", new Contact());
-		ConstantController.LOG.info("Returning a la vista: addcontact");
-		return ConstantView.RESET;
+		LOG.info("Returning a la vista: addcontact");
+		return ConstantView.RESET_PASSWD;
 	}
 
-	@PostMapping(ConstantController.RESET_CHECK)
+	@PostMapping(ConstantController.RESET_PASSWD_CHECK)
 	public String sendMail(@ModelAttribute(name = "userCredentials") Contact contact) {
 
 		String passwd = GenerPasswdService.getPassword(
@@ -160,6 +161,6 @@ public class LoginController {
 				}
 			}
 		}
-		return ConstantView.RESET_CHECK;
+		return ConstantView.RESET_PASSWD_CHECK;
 	}
 }
