@@ -34,10 +34,10 @@ import freemarker.template.TemplateException;
 @Controller
 @RequestMapping(ConstantController.ANIMALS)
 public class ContactController {
+
 	@Autowired
 	@Qualifier("contactServiceImpl")
 	private ContactServiceImpl contactServiceImpl;
-
 	@Autowired
 	@Qualifier("mailServiceImpl")
 	private MailServiceImpl mailServiceImpl;
