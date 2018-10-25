@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.store.tropifaunia.constants.ConstantView;
 import com.store.tropifaunia.entity.Contact;
 import com.store.tropifaunia.mail.constants.RestMailConstants;
 import com.store.tropifaunia.mail.service.impl.MailServiceImpl;
@@ -22,12 +23,13 @@ public class MailController extends MailServiceImpl {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MailController.class);
 
+	/** The contact service impl. */
 	@Autowired
 	@Qualifier("contactServiceImpl")
 	private ContactServiceImpl contactServiceImpl;
 
 	/**
-	 * Modify activation.
+	 * Contact activation.
 	 *
 	 * @param id
 	 *            the id
@@ -39,7 +41,7 @@ public class MailController extends MailServiceImpl {
 		if (contact != null && contact.getActivation() == 0) {
 			contactServiceImpl.updateActivation(contact);
 			LOGGER.info("Rest method: updateActivation(0)");
-			return ResponseEntity.ok(HttpStatus.OK + " Se ha activado su cuenta correctamente.").toString();
+			return ConstantView.CONTACT_LOGIN;
 		}
 		return ResponseEntity.ok(HttpStatus.UNAUTHORIZED + " Error de activacion del usuario").toString();
 	}

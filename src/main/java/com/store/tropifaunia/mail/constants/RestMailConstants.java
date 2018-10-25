@@ -3,7 +3,7 @@ package com.store.tropifaunia.mail.constants;
 public class RestMailConstants {
 
 	/**
-	 * 
+	 * Default constructor
 	 */
 	private RestMailConstants() {
 		super();
