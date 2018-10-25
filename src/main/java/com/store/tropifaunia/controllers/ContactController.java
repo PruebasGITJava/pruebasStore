@@ -30,7 +30,7 @@ import com.store.tropifaunia.services.impl.ContactServiceImpl;
 import freemarker.template.TemplateException;
 
 @Controller
-@RequestMapping("/contacts")
+@RequestMapping(ConstantController.CONTACT)
 public class ContactController {
 	@Autowired
 	@Qualifier("contactServiceImpl")
@@ -43,23 +43,31 @@ public class ContactController {
 	@Qualifier("animalServiceImpl")
 	private AnimalServiceImpl animalServiceImpl;
 
-	@GetMapping("/cancel")
-	public String cancel(@ModelAttribute(name = "animals") Animals animals, Model model) {
+	@GetMapping(ConstantController.CANCEL)
+	public String cancel(@ModelAttribute(name = "animals") Animals animals, Model model,
+			@RequestParam(name = "error", required = false) String error,
+			@RequestParam(name = "result", required = false) String result) {
 		ConstantController.LOG2.info("Lanzando metodo: cancel()");
 		ConstantController.LOG2.info("Returning a la vista: contacts");
+		model.addAttribute("animals", animalServiceImpl.findByAll());
 		double precio = 0;
 		int cantidad = 0;
 
-		model.addAttribute("animals", animalServiceImpl.findByAll());
-		model.addAttribute("precio", precio);
-		model.addAttribute("cantidad", cantidad + animals.getNumero());
+		for (Animals animal : animalServiceImpl.findByAll()) {
+			precio = precio + animal.getEuros();
+			cantidad = cantidad + animal.getNumero();
+		}
+		model.addAttribute("result", result);
+		model.addAttribute("error", error);
+		model.addAttribute("precio", precio * cantidad);
+		model.addAttribute("cantidad", cantidad);
 
 		return ConstantView.CONTACTS;
 
 	}
 
-	@GetMapping("/contactform")
-	public String redirectContactForm(Model model, @RequestParam(name = "error", required = false) String error,
+	@GetMapping(ConstantController.CONTACT_FORM)
+	public String ContactForm(Model model, @RequestParam(name = "error", required = false) String error,
 			@RequestParam(name = "logout", required = false) String logout) {
 		ConstantController.LOG2.info("Lanzando metodo: redirectContactForm()");
 		model.addAttribute("error", error);
@@ -69,26 +77,34 @@ public class ContactController {
 		return ConstantView.CONTACT_FORM;
 	}
 
-	@PostMapping("/addcontact")
-	public String addContact(Model model, @ModelAttribute(name = "animals2") Animals animals) {
-		ConstantController.LOG2.info("Lanzando metodo: addContact() -- PARAMETROS: " + animals.toString());
+	@PostMapping(ConstantController.ADD_CONTACT)
+	public String addContact(Model model, @ModelAttribute(name = "animals") Animals animals) {
+		if (!animals.getNombreRaza().trim().isEmpty() && !animals.getTipo().isEmpty()) {
+			for (Animals an : animalServiceImpl.findByAll()) {
+				if (animals.getNombreRaza().equals(an.getNombreRaza()) && animals.getTipo().equals(an.getTipo())
+						&& animals.getNumero() < 30) {
+					ConstantController.LOG.info("Returning a la vista: animals");
+					animals.setId(an.getId());
+					animals.setEuros(an.getEuros());
+					animalServiceImpl.updateAnimals(animals, (an.getNumero() + animals.getNumero()));
 
-		double precio = 0;
-		int cantidad = 0;
-		for (Animals animal : animalServiceImpl.findByAll()) {
-			if (animals.getNombreRaza().equals(animal.getNombreRaza())) {
+					model.addAttribute("animals", animalServiceImpl.findByAll());
+					double precio = 0;
+					int cantidad = 0;
 
-				animalServiceImpl.updateAnimals(animal, (animal.getNumero() + animals.getNumero()));
-				precio = precio + animal.getEuros();
-				cantidad = cantidad + animal.getNumero();
+					for (Animals animal : animalServiceImpl.findByAll()) {
+						precio = precio + animal.getEuros();
+						cantidad = cantidad + animal.getNumero();
+					}
+					model.addAttribute("precio", precio * cantidad);
+					model.addAttribute("cantidad", cantidad);
+
+					return ConstantController.REDIRECT_OK_COMPRA;
+				}
 			}
-
 		}
-		model.addAttribute("animals", animalServiceImpl.findByAll());
-		model.addAttribute("precio", precio);
-		model.addAttribute("cantidad", cantidad + animals.getNumero());
-
-		return ConstantView.CONTACTS;
+		ConstantController.LOG.info("Returning a la vista: contact?error");
+		return ConstantController.REDIRECT_ERROR_COMPRA;
 	}
 
 	@GetMapping(ConstantController.EDITPERFIL)

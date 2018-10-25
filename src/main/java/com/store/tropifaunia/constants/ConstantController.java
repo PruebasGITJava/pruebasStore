@@ -14,10 +14,16 @@ public class ConstantController {
 	public static final String LOGIN = "/login";
 	public static final String LOGIN_CHECK = "/logincheck";
 	public static final String REDIRECT_ERROR = "redirect:/login?error";
+	public static final String REDIRECT_ERROR_COMPRA = "redirect:/contacts/cancel?error";
+	public static final String REDIRECT_OK_COMPRA = "redirect:/contacts/cancel?result";
 	public static final String ADDCONTACT = "/addcontact";
 	public static final String ADDCONTACT_CHECK = "/addcontactcheck";
 	public static final String EDITPERFIL = "/editperfil";
 	public static final String RESET = "/resetpasswd";
 	public static final String RESET_CHECK = "/resetpasswdcheck";
+	public static final String CONTACT = "/contacts";
+	public static final String CANCEL = "/cancel";
+	public static final String CONTACT_FORM = "/contactform";
+	public static final String ADD_CONTACT = "/addcontact";
 
 }

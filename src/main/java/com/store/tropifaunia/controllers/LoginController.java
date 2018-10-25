@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,24 +50,28 @@ public class LoginController {
 
 	@GetMapping(ConstantController.LOGIN)
 	public String showLoginForm(Model model, @RequestParam(name = "error", required = false) String error,
-			@RequestParam(name = "logout", required = false) String logout) {
+			@RequestParam(name = "logout", required = false) String logout, HttpServletRequest request) {
+
 		ConstantController.LOG
 				.info("Lanzando metodo: showLoginForm() -- PARAMETROS: error= " + error + ", logout: " + logout);
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
 		model.addAttribute("userCredentials", new Contact());
+		request.getSession().setAttribute("LOGGED-DATA", null);
 		ConstantController.LOG.info("Returning a la vista: login");
 		return ConstantView.CONTACT_LOGIN;
 	}
 
 	@PostMapping(ConstantController.LOGIN_CHECK)
-	public String login(Model model, @ModelAttribute(name = "userCredentials") Contact contact) {
+	public String login(Model model, @ModelAttribute(name = "userCredentials") Contact contact,
+			HttpServletRequest request) {
 		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().isEmpty()) {
 
 			for (Contact user : contactServiceImpl.findByAll()) {
 				if (contact.getEmail().equals(user.getEmail())
 						&& DigestUtils.md5Hex(contact.getPasswd()).equals(user.getPasswd())
 						&& user.getActivation() == 1) {
+					request.getSession().setAttribute("LOGGED-DATA", contact);
 					ConstantController.LOG.info("Returning a la vista: contacts");
 
 					model.addAttribute("animals", animalServiceImpl.findByAll());

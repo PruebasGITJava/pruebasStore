@@ -22,11 +22,11 @@
 			<form action="#" th:action="@{/contacts/addcontact}"
 				method="post" th:object="${animals}">
 				Nombre de la raza: <input type="text" class="form-control"
-					th:text="*{nombreRaza}" placeholder="NombreRaza"></input> <br />
+					th:field="*{nombreRaza}" placeholder="NombreRaza"></input> <br />
 				Tipo de Animal: <input type="text" class="form-control"
-					th:text="*{tipo}" placeholder="Tipo"></input> <br /> Nº de
+					th:field="*{tipo}" placeholder="Tipo"></input> <br /> Nº de
 				animales: <input type="text" class="form-control"
-					th:text="*{numero}" placeholder="Numero"></input> <br />
+					th:field="*{numero}" placeholder="Numero"></input> <br />
 				<button class="btn btn-lg btn-primary btn-block" type="submit">
 					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					Comprar
