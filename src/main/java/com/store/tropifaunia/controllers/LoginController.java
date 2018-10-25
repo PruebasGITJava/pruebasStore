@@ -23,8 +23,9 @@ import com.store.tropifaunia.constants.ConstantView;
 import com.store.tropifaunia.entity.Animals;
 import com.store.tropifaunia.entity.Contact;
 import com.store.tropifaunia.mail.service.impl.MailServiceImpl;
+import com.store.tropifaunia.repositories.AnimalsRepository;
+import com.store.tropifaunia.repositories.LoginRepository;
 import com.store.tropifaunia.services.GenerPasswdService;
-import com.store.tropifaunia.services.impl.AnimalServiceImpl;
 import com.store.tropifaunia.services.impl.ContactServiceImpl;
 
 import freemarker.template.TemplateException;
@@ -43,10 +44,12 @@ public class LoginController {
 	@Autowired
 	@Qualifier("mailServiceImpl")
 	private MailServiceImpl mailServiceImpl;
-	/** The animal service impl. */
 	@Autowired
-	@Qualifier("animalServiceImpl")
-	private AnimalServiceImpl animalServiceImpl;
+	@Qualifier("loginRepository")
+	private LoginRepository loginRepository;
+	@Autowired
+	@Qualifier("animalsRepository")
+	private AnimalsRepository animalsRepository;
 	/** The Constant LOG. */
 	public static final Log LOG = LogFactory.getLog(LoginController.class);
 
@@ -102,16 +105,16 @@ public class LoginController {
 	public String login(Model model, @ModelAttribute(name = "userCredentials") Contact contact,
 			HttpServletRequest request) {
 		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().isEmpty()) {
-			for (Contact user : contactServiceImpl.findByAll()) {
+			for (Contact user : loginRepository.findAll()) {
 				if (contact.getEmail().equals(user.getEmail())
 						&& DigestUtils.md5Hex(contact.getPasswd()).equals(user.getPasswd())
 						&& user.getActivation() == 1) {
 					request.getSession().setAttribute("LOGGED-DATA", contact);
 					LOG.info("Returning a la vista: contacts");
-					model.addAttribute("animals", animalServiceImpl.findByAll());
+					model.addAttribute("animals", animalsRepository.findAll());
 					double precio = 0;
 					int cantidad = 0;
-					for (Animals animal : animalServiceImpl.findByAll()) {
+					for (Animals animal : animalsRepository.findAll()) {
 						precio = precio + animal.getEuros();
 						cantidad = cantidad + animal.getNumero();
 					}
@@ -164,7 +167,7 @@ public class LoginController {
 	public String addContact(@ModelAttribute(name = "userCredentials") Contact contact)
 			throws MessagingException, IOException, TemplateException {
 		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().trim().isEmpty()) {
-			List<Contact> contactos = contactServiceImpl.findByAll();
+			List<Contact> contactos = loginRepository.findAll();
 			for (Contact user : contactos) {
 				if (contact.getEmail().equals(user.getEmail())) {
 					LOG.info("PARAMETROS: email=" + contact.getEmail() + ", email-introducido: " + user.getEmail()
@@ -177,7 +180,7 @@ public class LoginController {
 			String encriptMD5 = DigestUtils.md5Hex(contact.getPasswd());
 			contact.setPasswd(encriptMD5);
 			LOG.info("Rest method: md5Hex(paswd)");
-			contactServiceImpl.addContact(contact);
+			loginRepository.save(contact);
 			LOG.info("Rest method: addContact()");
 			mailServiceImpl.sendSimpleMessageHTMLP(contact.getEmail(), contact.getId());
 			return ConstantView.ADD_CONTACT_FORM_CHECK;
@@ -219,7 +222,7 @@ public class LoginController {
 		String passwd = GenerPasswdService.getPassword(
 				GenerPasswdService.MINUSCULAS + GenerPasswdService.MAYUSCULAS + GenerPasswdService.ESPECIALES, 10);
 		if (!contact.getEmail().trim().isEmpty()) {
-			List<Contact> contactos = contactServiceImpl.findByAll();
+			List<Contact> contactos = loginRepository.findAll();
 			for (Contact user : contactos) {
 				if (contact.getEmail().equals(user.getEmail())) {
 					mailServiceImpl.sendSimpleMessagePasswdReset(contact, passwd);

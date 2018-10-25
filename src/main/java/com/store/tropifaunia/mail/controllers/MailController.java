@@ -15,6 +15,7 @@ import com.store.tropifaunia.constants.ConstantView;
 import com.store.tropifaunia.entity.Contact;
 import com.store.tropifaunia.mail.constants.RestMailConstants;
 import com.store.tropifaunia.mail.service.impl.MailServiceImpl;
+import com.store.tropifaunia.repositories.LoginRepository;
 import com.store.tropifaunia.services.impl.ContactServiceImpl;
 
 @RestController
@@ -27,6 +28,9 @@ public class MailController extends MailServiceImpl {
 	@Autowired
 	@Qualifier("contactServiceImpl")
 	private ContactServiceImpl contactServiceImpl;
+	@Autowired
+	@Qualifier("loginRepository")
+	private LoginRepository loginRepository;
 
 	/**
 	 * Contact activation.
@@ -37,7 +41,7 @@ public class MailController extends MailServiceImpl {
 	 */
 	@GetMapping(RestMailConstants.MAIL_REST_ACTIVATION)
 	public String modifyActivation(@RequestParam(required = true, name = "id") int id) {
-		Contact contact = contactServiceImpl.findById1(id);
+		Contact contact = loginRepository.findById(id);
 		if (contact != null && contact.getActivation() == 0) {
 			contactServiceImpl.updateActivation(contact);
 			LOGGER.info("Rest method: updateActivation(0)");

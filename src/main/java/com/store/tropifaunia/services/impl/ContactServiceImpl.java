@@ -1,8 +1,5 @@
 package com.store.tropifaunia.services.impl;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -53,47 +50,6 @@ public class ContactServiceImpl implements ContactService {
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.rest.services.ContactService#findByAll()
-	 */
-	@Override
-	public List<Contact> findByAll() {
-		return loginRepository.findAll();
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.rest.services.ContactService#findByNombreOrderById(java.lang.String)
-	 */
-	@Override
-	public List<Contact> findByNombreOrderById(String nombre) {
-		return loginRepository.findAll();
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.rest.services.ContactService#addContact(com.rest.entity.Contact)
-	 */
-	@Override
-	public Contact addContact(Contact contact) {
-		return loginRepository.save(contact);
-
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.rest.services.ContactService#removeContact(com.rest.entity.Contact)
-	 */
-	@Override
-	public void removeContact(Contact contact) {
-		loginRepository.delete(contact);
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
 	 * @see com.rest.services.ContactService#updateContact(com.rest.entity.Contact,
 	 *      java.lang.String, java.lang.String, int, java.lang.String)
 	 */
@@ -107,27 +63,6 @@ public class ContactServiceImpl implements ContactService {
 
 		loginRepository.save(contact);
 		return " ";
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.rest.services.ContactService#findById(int)
-	 */
-	@Override
-	public Optional<Contact> findById(int id) {
-		return loginRepository.findById(id);
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.rest.services.ContactService#findById1(int)
-	 */
-	@Override
-	public Contact findById1(int id) {
-		return loginRepository.findById(id).get();
-
 	}
 
 	/**

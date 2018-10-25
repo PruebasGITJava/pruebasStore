@@ -26,6 +26,8 @@ import com.store.tropifaunia.constants.ConstantView;
 import com.store.tropifaunia.entity.Animals;
 import com.store.tropifaunia.entity.Contact;
 import com.store.tropifaunia.mail.service.impl.MailServiceImpl;
+import com.store.tropifaunia.repositories.AnimalsRepository;
+import com.store.tropifaunia.repositories.LoginRepository;
 import com.store.tropifaunia.services.impl.AnimalServiceImpl;
 import com.store.tropifaunia.services.impl.ContactServiceImpl;
 
@@ -44,6 +46,12 @@ public class ContactController {
 	@Autowired
 	@Qualifier("animalServiceImpl")
 	private AnimalServiceImpl animalServiceImpl;
+	@Autowired
+	@Qualifier("loginRepository")
+	private LoginRepository loginRepository;
+	@Autowired
+	@Qualifier("animalsRepository")
+	private AnimalsRepository animalsRepository;
 
 	public static final Log LOG = LogFactory.getLog(ContactController.class);
 
@@ -53,11 +61,11 @@ public class ContactController {
 			@RequestParam(name = "result", required = false) String result) {
 		LOG.info("Lanzando metodo: cancel()");
 		LOG.info("Returning a la vista: contacts");
-		model.addAttribute("animals", animalServiceImpl.findByAll());
+		model.addAttribute("animals", animalsRepository.findAll());
 		double precio = 0;
 		int cantidad = 0;
 
-		for (Animals animal : animalServiceImpl.findByAll()) {
+		for (Animals animal : animalsRepository.findAll()) {
 			precio = precio + animal.getEuros();
 			cantidad = cantidad + animal.getNumero();
 		}
@@ -95,7 +103,7 @@ public class ContactController {
 	@PostMapping(ConstantController.ADD_ANIMALS_BUY)
 	public String addContact(Model model, @ModelAttribute(name = "animals") Animals animals) {
 		if (!animals.getNombreRaza().trim().isEmpty() && !animals.getTipo().isEmpty()) {
-			for (Animals an : animalServiceImpl.findByAll()) {
+			for (Animals an : animalsRepository.findAll()) {
 				if (animals.getNombreRaza().equals(an.getNombreRaza()) && animals.getTipo().equals(an.getTipo())
 						&& animals.getNumero() < 30) {
 					LOG.info("Returning a la vista: animals");
@@ -103,11 +111,11 @@ public class ContactController {
 					animals.setEuros(an.getEuros());
 					animalServiceImpl.updateAnimals(animals, (an.getNumero() + animals.getNumero()));
 
-					model.addAttribute("animals", animalServiceImpl.findByAll());
+					model.addAttribute("animals", animalsRepository.findAll());
 					double precio = 0;
 					int cantidad = 0;
 
-					for (Animals animal : animalServiceImpl.findByAll()) {
+					for (Animals animal : animalsRepository.findAll()) {
 						precio = precio - animal.getEuros();
 						cantidad = cantidad + animal.getNumero();
 					}
@@ -125,7 +133,7 @@ public class ContactController {
 	@PostMapping(ConstantController.ADD_ANIMALS_SALE)
 	public String addContactSale(Model model, @ModelAttribute(name = "animals") Animals animals) {
 		if (!animals.getNombreRaza().trim().isEmpty() && !animals.getTipo().isEmpty()) {
-			for (Animals an : animalServiceImpl.findByAll()) {
+			for (Animals an : animalsRepository.findAll()) {
 				if (animals.getNombreRaza().equals(an.getNombreRaza()) && animals.getTipo().equals(an.getTipo())
 						&& animals.getNumero() <= an.getNumero()) {
 					LOG.info("Returning a la vista: animals");
@@ -133,11 +141,11 @@ public class ContactController {
 					animals.setEuros(an.getEuros());
 					animalServiceImpl.updateAnimals(animals, (an.getNumero() - animals.getNumero()));
 
-					model.addAttribute("animals", animalServiceImpl.findByAll());
+					model.addAttribute("animals", animalsRepository.findAll());
 					double precio = 0;
 					int cantidad = 0;
 
-					for (Animals animal : animalServiceImpl.findByAll()) {
+					for (Animals animal : animalsRepository.findAll()) {
 						precio = precio + animal.getEuros();
 						cantidad = cantidad - animal.getNumero();
 					}
@@ -166,7 +174,7 @@ public class ContactController {
 	@PostMapping("/datePerson")
 	public String updateContact1(@RequestBody Contact contact) {
 		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().trim().isEmpty()) {
-			List<Contact> contactos = contactServiceImpl.findByNombreOrderById(contact.getNombre());
+			List<Contact> contactos = loginRepository.findByNombreOrderById(contact.getNombre());
 
 			for (Contact user : contactos) {
 				if (contact.getEmail().equals(user.getEmail())
@@ -185,7 +193,7 @@ public class ContactController {
 	@PostMapping("/dateEmail")
 	public String updateEmail(@RequestBody Contact contact) throws MessagingException, IOException, TemplateException {
 		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().trim().isEmpty()) {
-			List<Contact> contactos = contactServiceImpl.findByNombreOrderById(contact.getNombre());
+			List<Contact> contactos = loginRepository.findByNombreOrderById(contact.getNombre());
 
 			for (Contact user : contactos) {
 				if (DigestUtils.md5Hex(contact.getPasswd()).equals(user.getPasswd())) {
@@ -217,7 +225,7 @@ public class ContactController {
 	@PostMapping(ConstantController.UPDATE_PASSWD_CHECK)
 	public String updatePasswd(@ModelAttribute(name = "userCredentials") Contact contact) {
 		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().trim().isEmpty()) {
-			List<Contact> contactos = contactServiceImpl.findByNombreOrderById(contact.getNombre());
+			List<Contact> contactos = loginRepository.findByNombreOrderById(contact.getNombre());
 
 			for (Contact user : contactos) {
 				if (contact.getEmail().equals(user.getEmail()) && contact.getPasswd().length() > 8) {
