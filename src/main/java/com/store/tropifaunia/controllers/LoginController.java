@@ -22,10 +22,10 @@ import com.store.tropifaunia.constants.ConstantController;
 import com.store.tropifaunia.constants.ConstantView;
 import com.store.tropifaunia.entity.Animals;
 import com.store.tropifaunia.entity.Contact;
+import com.store.tropifaunia.mail.service.GenerPasswdService;
 import com.store.tropifaunia.mail.service.impl.MailServiceImpl;
 import com.store.tropifaunia.repositories.AnimalsRepository;
 import com.store.tropifaunia.repositories.LoginRepository;
-import com.store.tropifaunia.services.GenerPasswdService;
 import com.store.tropifaunia.services.impl.ContactServiceImpl;
 
 import freemarker.template.TemplateException;

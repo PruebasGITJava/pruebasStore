@@ -1,4 +1,4 @@
-package com.store.tropifaunia.services;
+package com.store.tropifaunia.mail.service;
 
 /**
  * The Class GenerPasswdService.
