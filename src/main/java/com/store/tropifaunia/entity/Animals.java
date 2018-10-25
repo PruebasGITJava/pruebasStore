@@ -8,31 +8,58 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * The Class Animals.
+ */
 @Entity
 @Table(name = "animals")
 public class Animals implements Serializable {
-	/**
-	 * 
-	 */
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The id. */
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
 	private int id;
 
+	/** The nombre raza. */
 	@Column(name = "nombreRaza")
 	private String nombreRaza;
+
+	/** The tipo. */
 	@Column(name = "tipo")
 	private String tipo;
+
+	/** The numero. */
 	@Column(name = "numero")
 	private int numero;
+
+	/** The euros. */
 	@Column(name = "euros")
 	private double euros;
 
+	/**
+	 * Instantiates a new animals.
+	 */
 	public Animals() {
 	}
 
+	/**
+	 * Instantiates a new animals.
+	 *
+	 * @param id
+	 *            the id
+	 * @param nombreRaza
+	 *            the nombre raza
+	 * @param tipo
+	 *            the tipo
+	 * @param numero
+	 *            the numero
+	 * @param euros
+	 *            the euros
+	 */
 	public Animals(int id, String nombreRaza, String tipo, int numero, double euros) {
 		super();
 		this.id = id;
@@ -43,6 +70,8 @@ public class Animals implements Serializable {
 	}
 
 	/**
+	 * Gets the nombre raza.
+	 *
 	 * @return the nombreRaza
 	 */
 	public String getNombreRaza() {
@@ -50,6 +79,8 @@ public class Animals implements Serializable {
 	}
 
 	/**
+	 * Sets the nombre raza.
+	 *
 	 * @param nombreRaza
 	 *            the nombreRaza to set
 	 */
@@ -58,6 +89,8 @@ public class Animals implements Serializable {
 	}
 
 	/**
+	 * Gets the tipo.
+	 *
 	 * @return the tipo
 	 */
 	public String getTipo() {
@@ -65,6 +98,8 @@ public class Animals implements Serializable {
 	}
 
 	/**
+	 * Sets the tipo.
+	 *
 	 * @param tipo
 	 *            the tipo to set
 	 */
@@ -73,6 +108,8 @@ public class Animals implements Serializable {
 	}
 
 	/**
+	 * Gets the numero.
+	 *
 	 * @return the numero
 	 */
 	public int getNumero() {
@@ -80,6 +117,8 @@ public class Animals implements Serializable {
 	}
 
 	/**
+	 * Sets the numero.
+	 *
 	 * @param numero
 	 *            the numero to set
 	 */
@@ -88,6 +127,8 @@ public class Animals implements Serializable {
 	}
 
 	/**
+	 * Gets the euros.
+	 *
 	 * @return the €
 	 */
 	public double getEuros() {
@@ -95,14 +136,18 @@ public class Animals implements Serializable {
 	}
 
 	/**
-	 * @param €
-	 *            the € to set
+	 * Sets the euros.
+	 *
+	 * @param euros
+	 *            the new euros
 	 */
 	public void setEuros(double euros) {
 		this.euros = euros;
 	}
 
 	/**
+	 * Gets the id.
+	 *
 	 * @return the id
 	 */
 	public int getId() {
@@ -110,6 +155,8 @@ public class Animals implements Serializable {
 	}
 
 	/**
+	 * Sets the id.
+	 *
 	 * @param id
 	 *            the id to set
 	 */

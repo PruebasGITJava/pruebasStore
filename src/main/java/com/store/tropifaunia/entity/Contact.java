@@ -15,33 +15,48 @@ import javax.validation.constraints.Email;
 @Entity
 @Table(name = "contact")
 public class Contact implements Serializable {
-	/**
-	 * 
-	 */
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The id. */
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
 	private int id;
 
+	/** The nombre. */
 	@Column(name = "nombre")
 	private String nombre;
+
+	/** The appellidos. */
 	@Column(name = "appellidos")
 	private String appellidos;
+
+	/** The edad. */
 	@Column(name = "edad")
 	private int edad;
+
+	/** The localidad. */
 	@Column(name = "localidad")
 	private String localidad;
+
+	/** The email. */
 	@Email
 	@Column(name = "email")
 	private String email;
+
+	/** The passwd. */
 	@Column(name = "passwd")
 	private String passwd;
+
+	/** The activation. */
 	@Column(name = "activation")
 	private int activation;
 
 	/**
+	 * Gets the id.
+	 *
 	 * @return the id
 	 */
 	public int getId() {
@@ -49,6 +64,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Sets the id.
+	 *
 	 * @param id
 	 *            the id to set
 	 */
@@ -57,6 +74,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Gets the nombre.
+	 *
 	 * @return the nombre
 	 */
 	public String getNombre() {
@@ -64,6 +83,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Sets the nombre.
+	 *
 	 * @param nombre
 	 *            the nombre to set
 	 */
@@ -72,6 +93,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Gets the appellidos.
+	 *
 	 * @return the appellidos
 	 */
 	public String getAppellidos() {
@@ -79,6 +102,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Sets the appellidos.
+	 *
 	 * @param appellidos
 	 *            the appellidos to set
 	 */
@@ -87,6 +112,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Gets the edad.
+	 *
 	 * @return the edad
 	 */
 	public int getEdad() {
@@ -94,6 +121,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Sets the edad.
+	 *
 	 * @param edad
 	 *            the edad to set
 	 */
@@ -102,6 +131,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Gets the localidad.
+	 *
 	 * @return the localidad
 	 */
 	public String getLocalidad() {
@@ -109,6 +140,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Sets the localidad.
+	 *
 	 * @param localidad
 	 *            the localidad to set
 	 */
@@ -117,6 +150,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Gets the email.
+	 *
 	 * @return the email
 	 */
 	public String getEmail() {
@@ -124,6 +159,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Sets the email.
+	 *
 	 * @param email
 	 *            the email to set
 	 */
@@ -132,6 +169,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Gets the passwd.
+	 *
 	 * @return the passwd
 	 */
 	public String getPasswd() {
@@ -139,6 +178,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Sets the passwd.
+	 *
 	 * @param passwd
 	 *            the passwd to set
 	 */
@@ -146,6 +187,24 @@ public class Contact implements Serializable {
 		this.passwd = passwd;
 	}
 
+	/**
+	 * Instantiates a new contact.
+	 *
+	 * @param id
+	 *            the id
+	 * @param nombre
+	 *            the nombre
+	 * @param appellidos
+	 *            the appellidos
+	 * @param edad
+	 *            the edad
+	 * @param localidad
+	 *            the localidad
+	 * @param email
+	 *            the email
+	 * @param passwd
+	 *            the passwd
+	 */
 	public Contact(int id, String nombre, String appellidos, int edad, String localidad, String email, String passwd) {
 		super();
 		this.id = id;
@@ -157,11 +216,16 @@ public class Contact implements Serializable {
 		this.passwd = passwd;
 	}
 
+	/**
+	 * Instantiates a new contact.
+	 */
 	public Contact() {
 
 	}
 
 	/**
+	 * Gets the activation.
+	 *
 	 * @return the activation
 	 */
 	public int getActivation() {
@@ -169,6 +233,8 @@ public class Contact implements Serializable {
 	}
 
 	/**
+	 * Sets the activation.
+	 *
 	 * @param activation
 	 *            the activation to set
 	 */
