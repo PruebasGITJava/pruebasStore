@@ -88,12 +88,11 @@ public class ContactController {
 
 	@GetMapping(ConstantController.ANIMALS_FORM_SALE)
 	public String ContactFormSale(Model model, @RequestParam(name = "error", required = false) String error,
-			@RequestParam(name = "logout", required = false) String logout,
-			@ModelAttribute(name = "animals") Animals animals) {
+			@RequestParam(name = "logout", required = false) String logout) {
 		LOG.info("Lanzando metodo: redirectContactForm()");
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
-		model.addAttribute("animals", animalsRepository.findAll());
+		model.addAttribute("animals", new Animals());
 		LOG.info("Returning a la vista: contactform");
 		return ConstantView.ANIMALS_FORM_SALE;
 	}
@@ -131,7 +130,8 @@ public class ContactController {
 	@PostMapping(ConstantController.ADD_ANIMALS_SALE)
 	public String addContactSale(Model model, @ModelAttribute(name = "animals") Animals animals) {
 		if (!animals.getNombreRaza().trim().isEmpty() && !animals.getTipo().isEmpty()) {
-			for (Animals an : animalsRepository.findAll()) {
+			List<Animals> list = animalsRepository.findAll();
+			for (Animals an : list) {
 				if (animals.getNombreRaza().equals(an.getNombreRaza()) && animals.getTipo().equals(an.getTipo())
 						&& animals.getNumero() <= an.getNumero()) {
 					LOG.info("Returning a la vista: animals");
