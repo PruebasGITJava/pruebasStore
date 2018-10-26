@@ -25,7 +25,7 @@
 		<div class="panel panel-default">
 		<h3><b>Tabla de Animales</b></h3>
 			<div class="panel-heading"></div>
-			<table class="table">
+			<table class="table" id="tablePets">
 				<thead>
 					<tr>
 						<th>Nombre de la raza</th>
@@ -36,10 +36,10 @@
 				</thead>
 				<tbody>
 					<tr th:each="animl: ${animals}">
-						<td th:text="${animl.nombreRaza}" />
-						<td th:text="${animl.tipo}" />
-						<td th:text="${animl.numero}" />
-						<td th:text="${animl.euros}" />
+						<td th:text="${animl.nombreRaza}" id="nombre"/>
+						<td th:text="${animl.tipo}" id="tipo"/>
+						<td th:text="${animl.numero}" id="num"/>
+						<td th:text="${animl.euros}" id="precio"/>
 					</tr>
 				</tbody>
 			</table>
@@ -79,7 +79,7 @@
 										aria-hidden="true"></span>
 								</button>
 						</a> <a href="#" th:href="@{/contacts/contactformsale}">
-								<button type="button" class="btn btn-default">
+								<button type="button" class="btn btn-default" onclick="saveInfo()">
 									<span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
 								</button>
 						</a></th>
@@ -106,4 +106,43 @@
 
 
 </body>
+<script type="text/javascript">
+	
+	function saveInfo(){
+		var animals=[];
+	
+	var table = document.getElementById("tablePets");
+		for (var i = 0, row; row = table.rows[i]; i++) {
+			   if(i!=0){
+				 var animal ={
+						nombre: document.getElementById("tablePets").rows[i].childNodes[1].innerHTML,
+						tipo: document.getElementById("tablePets").rows[i].childNodes[3].innerHTML,
+						cantidad: document.getElementById("tablePets").rows[i].childNodes[5].innerHTML,
+						precio: document.getElementById("tablePets").rows[i].childNodes[7].innerHTML
+				   };
+				   animals.push(animal);
+			   }
+		}
+		saveStuff(animals);
+	}
+		
+	
+	
+	// Retrieve your data from locaStorage
+	var saveData = JSON.parse(localStorage.saveData || null) || {};
+
+	// Store your data.
+	function saveStuff(obj) {
+	  saveData.animals = obj;
+	  // saveData.foo = foo;
+	  saveData.time = new Date().getTime();
+	  localStorage.saveData = JSON.stringify(saveData);
+	}
+
+	// Do something with your data.
+	function loadStuff() {
+	  return saveData.obj || "default";
+	}
+
+</script>
 </html>

@@ -21,14 +21,14 @@
 			<br />
 			<form action="#" th:action="@{/contacts/addcontactsale}"
 				method="post" th:object="${animals}">
-				Nombre de la raza: <input type="text" class="form-control"
-					th:field="*{nombreRaza}" placeholder="NombreRaza"></input> <br />
-				Tipo de Animal: <input type="text" class="form-control"
-					th:field="*{tipo}" placeholder="Tipo"></input> <br /> Nº de
-				animales: <input id="numAnimals" type="text" class="form-control"
-					th:field="*{numero}" placeholder="Numero" onchange="checkPrice()"></input> <br />
+				Nombre de la raza: 
+				<input id="animalName" name="nombreRaza" type="text" class="form-control" th:field="*{nombreRaza}" placeholder="NombreRaza"></input> <br />
+				Tipo de Animal: 
+				<input id="cantidad" name="tipo" type="text" class="form-control" th:field="*{tipo}" placeholder="Tipo"></input> <br /> 
+				Nº de animales: 
+				<input id="numAnimals" type="text" class="form-control" th:field="*{numero}" placeholder="Numero" onchange="checkPrice()"></input> <br />
 				Precio (unidad):
-				<input type="text" th:field="*{euros}"> </input> <br /><br />
+				<input id="euros" type="text" value=""> </input> <br /><br />
 				<button class="btn btn-lg btn-primary btn-block" type="submit">
 					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					Vender
@@ -47,12 +47,22 @@
 <script type="text/javascript">
 
 function checkPrice(){
-	
-	var price = 100;
-	
-	if (document.getElementById("numAnimals").value* price>=600){
-		alert("Puedes pagar con tarjeta.");
-	}
+	var animalsList= JSON.parse(localStorage.getItem('saveData'));
+	var total;
+	for (var i=0; i<= animalsList.animals.length; i++){
+				
+		if(document.getElementById("animalName").value===animalsList.animals[i].nombre){
+			
+			total=document.getElementById("numAnimals").value * animalsList.animals[i].precio;
+			document.getElementById("euros").value=total;
+
+			
+			if (document.getElementById("numAnimals").value * animalsList.animals[i].precio>=600){
+				alert("Puedes pagar con tarjeta.");
+			}
+		}
+	}	
+
 	
 }
 
