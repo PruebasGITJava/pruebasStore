@@ -47,9 +47,12 @@ public class ConstantController {
 	public static final String REDIRECT_ERROR_SALE = "redirect:/contacts/cancel?error";
 	/** The Constant ADD_CONTACT_SALE. */
 	public static final String ADD_ANIMALS_SALE = "/addcontactsale";
-
 	/** The Constant EDIT_PERFIL_CONTACT. */
 	public static final String EDIT_PERFIL_CONTACT = "/editperfil";
+	/** The Constant UPDATE_CONTACT. */
+	public static final String UPDATE_CONTACT = "/datePerson";
+	/** The Constant UPDATE_EMAIL. */
+	public static final String UPDATE_EMAIL = "/dateEmail";
 	/** The Constant UPDATE_PASSWD. */
 	public static final String UPDATE_PASSWD = "/updatepasswd";
 	/** The Constant UPDATE_PASSWD_CHECK. */

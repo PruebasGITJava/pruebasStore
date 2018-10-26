@@ -114,7 +114,8 @@ public class LoginController {
 					model.addAttribute("animals", animalsRepository.findAll());
 					double precio = 0;
 					int cantidad = 0;
-					for (Animals animal : animalsRepository.findAll()) {
+					List<Animals> listaAnimales = animalsRepository.findAll();
+					for (Animals animal : listaAnimales) {
 						precio = precio + animal.getEuros();
 						cantidad = cantidad + animal.getNumero();
 					}

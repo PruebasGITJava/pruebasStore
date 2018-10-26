@@ -27,6 +27,8 @@
 					th:field="*{tipo}" placeholder="Tipo"></input> <br /> Nº de
 				animales: <input id="numAnimals" type="text" class="form-control"
 					th:field="*{numero}" placeholder="Numero" onchange="checkPrice()"></input> <br />
+				Precio (unidad):
+				<input type="text" th:field="*{euros}"> </input> <br />
 				<button class="btn btn-lg btn-primary btn-block" type="submit">
 					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					Vender
@@ -49,7 +51,7 @@ function checkPrice(){
 	var price = 100;
 	
 	if (document.getElementById("numAnimals").value* price>=600){
-		alert("Puedes pagar con tarjeta joputa");
+		alert("Puedes pagar con tarjeta.");
 	}
 	
 }

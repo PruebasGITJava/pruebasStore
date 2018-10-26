@@ -19,14 +19,18 @@
 
 	<div class="container">
 
-		<form class="form-signin" action="#" th:action="@{/contacts/datePerson}"
-			th:object="${userCredentials}" method="post">
+		<form class="form-signin" action="#"
+			th:action="@{/contacts/datePerson}" th:object="${userCredentials}"
+			method="post">
 			<h3 class="form-signin-heading">Editar Datos Personales</h3>
-			<label for="inputEmail" class="sr-only">NOMBRE</label> <input
-				type="text" id="inputNombre" class="form-control"
-				placeholder="Nombre" th:field="*{nombre}" /> 
-			<label for="inputEmail" class="sr-only">APELLIDOS</label> <input
-				type="text" id="inputAppellidos" class="form-control"
+
+			<label for="inputEmail" class="sr-only">Por seguridad
+				introduzca su email:</label> <input type="text" id="inputEmail"
+				class="form-control" placeholder="Email" th:field="*{email}" /> <label
+				for="inputEmail" class="sr-only">NOMBRE</label> <input type="text"
+				id="inputNombre" class="form-control" placeholder="Nombre"
+				th:field="*{nombre}" /> <label for="inputEmail" class="sr-only">APELLIDOS</label>
+			<input type="text" id="inputAppellidos" class="form-control"
 				placeholder="Apellidos" th:field="*{appellidos}" /> <label
 				for="inputEmail" class="sr-only">EDAD</label> <input type="text"
 				id="inputEdad" class="form-control" placeholder="Edad"
@@ -38,23 +42,31 @@
 				Editar
 			</button>
 		</form>
-		<form class="form-signin" action="#" th:action="@{/contacts/dateEmail}"
-			th:object="${userCredentials}" method="post">
+		<form class="form-signin" action="#"
+			th:action="@{/contacts/dateEmail}" th:object="${userCredentials}"
+			method="post">
 			<h3 class="form-signin-heading">Editar Email</h3>
-			<label for="inputEmail" class="sr-only">EMAIL</label> <input
+			<label for="inputEmail" class="sr-only">EMAIL NUEVO</label> <input
 				type="text" id="inputUsername" class="form-control"
-				placeholder="Email*" th:field="*{email}" />
+				placeholder="Email New*" th:field="*{email}" /> <label
+				for="inputEmail" class="sr-only">Contraseña:</label> <input
+				type="text" id="inputUsername" class="form-control"
+				placeholder="Contraseña*" th:field="*{passwd}" />
 			<button class="btn btn-lg btn-primary btn-block" type="submit">
 				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
 				Editar
 			</button>
 		</form>
-		<form class="form-signin" action="#" th:action="@{/contacts/updatepasswdcheck}"
+		<form class="form-signin" action="#"
+			th:action="@{/contacts/updatepasswdcheck}"
 			th:object="${userCredentials}" method="post">
 			<h3 class="form-signin-heading">Editar Contraseña</h3>
-			<label for="inputPassword" class="sr-only">CONTRASEÑA</label> <input
+			<label for="inputEmail" class="sr-only">EMAIL</label> <input
+				type="text" id="inputUsername" class="form-control"
+				placeholder="Email*" th:field="*{email}" /> <label
+				for="inputPassword" class="sr-only">CONTRASEÑA</label> <input
 				type="password" id="inputPassword" class="form-control"
-				placeholder="Password*" th:field="*{passwd}" />
+				placeholder="Password New*" th:field="*{passwd}" />
 			<button class="btn btn-lg btn-primary btn-block" type="submit">
 				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
 				Editar

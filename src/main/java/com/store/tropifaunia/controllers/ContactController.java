@@ -10,14 +10,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -71,7 +68,7 @@ public class ContactController {
 		}
 		model.addAttribute("result", result);
 		model.addAttribute("error", error);
-		model.addAttribute("precio", precio * cantidad);
+		model.addAttribute("precio", precio);
 		model.addAttribute("cantidad", cantidad);
 
 		return ConstantView.ANIMALS_FORM_TABLE;
@@ -91,11 +88,12 @@ public class ContactController {
 
 	@GetMapping(ConstantController.ANIMALS_FORM_SALE)
 	public String ContactFormSale(Model model, @RequestParam(name = "error", required = false) String error,
-			@RequestParam(name = "logout", required = false) String logout) {
+			@RequestParam(name = "logout", required = false) String logout,
+			@ModelAttribute(name = "animals") Animals animals) {
 		LOG.info("Lanzando metodo: redirectContactForm()");
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
-		model.addAttribute("animals", new Animals());
+		model.addAttribute("animals", animalsRepository.findAll());
 		LOG.info("Returning a la vista: contactform");
 		return ConstantView.ANIMALS_FORM_SALE;
 	}
@@ -119,7 +117,7 @@ public class ContactController {
 						precio = precio - animal.getEuros();
 						cantidad = cantidad + animal.getNumero();
 					}
-					model.addAttribute("precio", precio * cantidad);
+					model.addAttribute("precio", precio);
 					model.addAttribute("cantidad", cantidad);
 
 					return ConstantController.REDIRECT_OK_BUY;
@@ -149,7 +147,7 @@ public class ContactController {
 						precio = precio + animal.getEuros();
 						cantidad = cantidad - animal.getNumero();
 					}
-					model.addAttribute("precio", precio * cantidad);
+					model.addAttribute("precio", precio);
 					model.addAttribute("cantidad", cantidad);
 
 					return ConstantController.REDIRECT_OK_SALE;
@@ -171,44 +169,41 @@ public class ContactController {
 		return ConstantView.EDIT_PERFIL_CONTACT;
 	}
 
-	@PostMapping("/datePerson")
-	public String updateContact1(@RequestBody Contact contact) {
-		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().trim().isEmpty()) {
-			List<Contact> contactos = loginRepository.findByNombreOrderById(contact.getNombre());
+	@PostMapping(ConstantController.UPDATE_CONTACT)
+	public String updateContact1(Model model, @ModelAttribute(name = "userCredentials") Contact contact) {
+		if (!contact.getEmail().trim().isEmpty()) {
+			List<Contact> contactos = loginRepository.findAll();
 
 			for (Contact user : contactos) {
-				if (contact.getEmail().equals(user.getEmail())
-						&& DigestUtils.md5Hex(contact.getPasswd()).equals(user.getPasswd())) {
+				if (contact.getEmail().equals(user.getEmail())) {
 
 					contactServiceImpl.updateContact(user, contact.getNombre(), contact.getAppellidos(),
 							contact.getEdad(), contact.getLocalidad());
 
-					return ConstantView.ANIMALS_FORM_BUY;
+					return ConstantController.REDIRECT_OK_SALE;
 				}
 			}
 		}
-		return ResponseEntity.ok(HttpStatus.UNAUTHORIZED + " Error de modificación de datos del usuario").toString();
+		return ConstantController.REDIRECT_ERROR_SALE;
 	}
 
-	@PostMapping("/dateEmail")
-	public String updateEmail(@RequestBody Contact contact) throws MessagingException, IOException, TemplateException {
-		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().trim().isEmpty()) {
-			List<Contact> contactos = loginRepository.findByNombreOrderById(contact.getNombre());
+	@PostMapping(ConstantController.UPDATE_EMAIL)
+	public String updateEmail(Model model, @ModelAttribute(name = "userCredentials") Contact contact)
+			throws MessagingException, IOException, TemplateException {
+		if (!contact.getEmail().trim().isEmpty()) {
+			List<Contact> contactos = loginRepository.findAll();
 
 			for (Contact user : contactos) {
 				if (DigestUtils.md5Hex(contact.getPasswd()).equals(user.getPasswd())) {
 					contactServiceImpl.updateDesactivation(user);
 					contactServiceImpl.updateEmail(user, contact.getEmail());
 					mailServiceImpl.sendSimpleMessageHTMLP(contact.getEmail(), user.getId());
-					return ResponseEntity
-							.ok(HttpStatus.OK + " Se ha modificado el email de manera manual con nombre actual: '"
-									+ contact.getEmail()
-									+ "', por su seguridad se ha mandado un correo de activación en su nuevo correo.")
-							.toString();
+					return ConstantController.REDIRECT_OK_SALE;
+
 				}
 			}
 		}
-		return ResponseEntity.ok(HttpStatus.UNAUTHORIZED + " Error de cambio de email del usuario").toString();
+		return ConstantController.REDIRECT_ERROR_SALE;
 	}
 
 	@GetMapping(ConstantController.UPDATE_PASSWD)
@@ -225,7 +220,7 @@ public class ContactController {
 	@PostMapping(ConstantController.UPDATE_PASSWD_CHECK)
 	public String updatePasswd(@ModelAttribute(name = "userCredentials") Contact contact) {
 		if (!contact.getEmail().trim().isEmpty() && !contact.getPasswd().trim().isEmpty()) {
-			List<Contact> contactos = loginRepository.findByNombreOrderById(contact.getNombre());
+			List<Contact> contactos = loginRepository.findAll();
 
 			for (Contact user : contactos) {
 				if (contact.getEmail().equals(user.getEmail()) && contact.getPasswd().length() > 8) {
